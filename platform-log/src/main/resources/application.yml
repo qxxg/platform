@@ -1,0 +1,19 @@
+server:
+  port: 2221
+
+spring:
+  application:
+    name: platform-log
+
+  jta:
+    atomikos:
+      properties:
+        log-base-dir: /platform-log
+  #      log-base-name: platform-log
+#        log-base-dir: ./log/platform-log
+#        enable-logging: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://smallsand:smallsand@service1:7777/eureka/

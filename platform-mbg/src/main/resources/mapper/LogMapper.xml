@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxxg.springcloud.platformmbg.mapper.LogMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.qxxg.springcloud.platformmbg.entity.Log">
+                    <id column="id" property="id" jdbcType="bigint(20)"/>
+                    <result column="create_time" property="createTime" jdbcType="datetime"/>
+                    <result column="user_name" property="userName" jdbcType="varchar(50)"/>
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            id, create_time, user_name
+        </sql>
+</mapper>

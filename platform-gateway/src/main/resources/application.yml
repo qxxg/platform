@@ -1,0 +1,43 @@
+server:
+  port: 4444
+spring:
+  application:
+    name: platform-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      default-filters:
+      - name: Hystrix
+        args:
+          name: fallbackcmd
+          fallbackUri: forward:/fallbackcontroller
+
+  redis:
+    expireSeconds: 120
+    timeout: 20000
+    cluster:
+      nodes: 192.168.2.226:7010 ,192.168.2.226:7011, 192.168.2.227:7010, 192.168.2.227:7011, 192.168.2.228:7010, 192.168.2.228:7011
+      maxRedirects: 6
+    #连接池的最大数据库连接数。设为0表示无限制,如果是jedis 2.4以后用redis.maxTotal
+    max-active: 8
+    min-idle: 0
+    #最大空闲数
+    max-idle: 8
+    #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+    max-wait: -1
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://smallsand:smallsand@service1:7777/eureka/
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000

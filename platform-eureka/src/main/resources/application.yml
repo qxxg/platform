@@ -1,0 +1,19 @@
+server:
+  port: 7777
+spring:
+  application:
+    name: eureka-service
+  security:
+    user:
+      name: smallsand
+      password: smallsand
+eureka:
+  instance:
+    hostname: service1
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone:  http://smallsand:smallsand@service1:7777/eureka/
+
+

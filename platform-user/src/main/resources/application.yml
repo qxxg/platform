@@ -1,0 +1,54 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: platform-user
+  jta:
+    atomikos:
+      properties:
+        log-base-dir: /platform-user
+#        log-base-name: platform-user
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/oauth?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: root
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://smallsand:smallsand@service1:7777/eureka/
+#security:
+#  oauth2:
+#    resource:
+#      user-info-uri: http://localhost:6666//user/info
+
+logging:
+  level:
+    com:
+      qxxg:
+        springcloud: debug
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: true
+
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 5000
+
+#配置断路器超时时间，默认是1000（1秒）
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 20000
+#          strategy: SEMAPHORE
