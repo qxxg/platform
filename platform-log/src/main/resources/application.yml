@@ -17,3 +17,12 @@ eureka:
   client:
     service-url:
       defaultZone:  http://smallsand:smallsand@service1:7777/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

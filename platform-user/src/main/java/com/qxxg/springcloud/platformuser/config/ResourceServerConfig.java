@@ -3,6 +3,7 @@ package com.qxxg.springcloud.platformuser.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
@@ -25,8 +26,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-       resources.tokenStore(tokenStore());
+        resources.tokenStore(tokenStore());
     }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll().anyRequest()
+                .authenticated();
+    }
+
 
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
@@ -35,15 +43,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     /**
      * 解密密钥
      * keytool -list -rfc --keystore ltd-jwt.jks | openssl x509 -inform pem -pubkey
+     *
      * @return
      */
-    public JwtAccessTokenConverter jwtAccessTokenConverter(){
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         String verifierkey = null;
         try {
             InputStream inputStream = new ClassPathResource("ltd-jwt.txt").getInputStream();
             byte[] strArrays = FileCopyUtils.copyToByteArray(inputStream);
-            verifierkey = new String(strArrays,"utf-8");
+            verifierkey = new String(strArrays, "utf-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,7 +63,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

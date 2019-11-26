@@ -30,6 +30,9 @@ spring:
     max-wait: -1
 
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
   client:
     service-url:
       defaultZone:  http://smallsand:smallsand@service1:7777/eureka/
@@ -41,3 +44,12 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 3000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

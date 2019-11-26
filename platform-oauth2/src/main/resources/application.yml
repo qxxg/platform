@@ -10,16 +10,16 @@ spring:
     password: root
 
 
-  redis:
-    expireSeconds: 120
-    timeout: 20000
-    cluster:
-      nodes: 192.168.2.226:7010 ,192.168.2.226:7011, 192.168.2.227:7010, 192.168.2.227:7011, 192.168.2.228:7010, 192.168.2.228:7011
-      maxRedirects: 6
-    max-active: 8
-    min-idle: 0
-    max-idle: 8
-    max-wait: -1
+#  redis:
+#    expireSeconds: 120
+#    timeout: 20000
+#    cluster:
+#      nodes: 192.168.2.226:7010 ,192.168.2.226:7011, 192.168.2.227:7010, 192.168.2.227:7011, 192.168.2.228:7010, 192.168.2.228:7011
+#      maxRedirects: 6
+#    max-active: 8
+#    min-idle: 0
+#    max-idle: 8
+#    max-wait: -1
 
 logging:
   level:
@@ -31,3 +31,12 @@ eureka:
   client:
     service-url:
       defaultZone:  http://smallsand:smallsand@service1:7777/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
