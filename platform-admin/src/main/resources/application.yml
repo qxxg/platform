@@ -5,9 +5,13 @@ spring:
     name: platform-admin
   boot:
     admin:
-      context-path: /admin
       ui:
         title: platform平台监控中心
+        brand: "<img src='assets/img/icon-spring-boot-admin.svg'><span> platform平台监控中心</span>"
+  security:
+    user:
+      name: abbot
+      password: abbot
 
 eureka:
   instance:
