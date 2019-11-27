@@ -13,6 +13,15 @@ spring:
 #    driver-class-name: com.mysql.jdbc.Driver
 #    username: root
 #    password: root
+  zipkin:
+    base-url: http://service1:9411    # 指定了 zipkin 服务器的地址
+    sender:
+      type: rabbit
+  sleuth:
+    sampler:
+      probability: 1.0    # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  rabbitmq:
+    addresses: 192.168.7.129
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
