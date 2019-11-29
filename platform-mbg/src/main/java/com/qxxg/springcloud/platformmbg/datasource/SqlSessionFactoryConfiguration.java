@@ -1,7 +1,5 @@
 package com.qxxg.springcloud.platformmbg.datasource;
 
-import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -11,11 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -45,11 +40,11 @@ public class SqlSessionFactoryConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MybatisSqlSessionFactoryBean sqlSessionFactory() throws Exception {
-        MybatisSqlSessionFactoryBean  sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean ();
+    public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean  sqlSessionFactoryBean = new SqlSessionFactoryBean ();
         sqlSessionFactoryBean.setDataSource(roundRobinDataSouceProxy());
-        //sqlSessionFactoryBean.setTypeAliasesPackage("com.qxxg.springcloud.platformmbg.mapper");
-        //sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.qxxg.springcloud.platformmbg.mapper");
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return sqlSessionFactoryBean;
     }

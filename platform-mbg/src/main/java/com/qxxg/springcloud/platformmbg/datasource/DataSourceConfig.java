@@ -20,26 +20,26 @@ import java.util.List;
  * @author:SmallSand
  * @Date:Created in 2019/8/21
  */
-@PropertySource(value = "classpath:application-data.properties")
+//@PropertySource(value = "classpath:application-data.properties")
 @Configuration
 @Slf4j
 public class DataSourceConfig {
 
-    @Value("${mysql.datasource.write.jdbc-url}")
+    /*@Value("${mysql.datasource.write.jdbc-url}")
     private String url;
 
     @Value("${mysql.datasource.write.username}")
     private String username;
 
     @Value("${mysql.datasource.write.password}")
-    private String pwd;
+    private String pwd;*/
     
     @Primary
     @Bean(name = "primaryDataSource")
     @Qualifier("primaryDataSource")
-    //@ConfigurationProperties(prefix = "mysql.datasource.write")
+    @ConfigurationProperties(prefix = "mysql.datasource.write")
     public DataSource primaryDataSource() {
-        MysqlXADataSource mysqlXADataSource = new MysqlXADataSource();
+       /* MysqlXADataSource mysqlXADataSource = new MysqlXADataSource();
         mysqlXADataSource.setUrl(url);
         mysqlXADataSource.setUser(username);
         mysqlXADataSource.setPassword(pwd);
@@ -49,7 +49,8 @@ public class DataSourceConfig {
         atomikosDataSource.setMinPoolSize(20);
         atomikosDataSource.setMaxPoolSize(100);
         atomikosDataSource.setTestQuery("SELECT 1");
-        return atomikosDataSource;
+        return atomikosDataSource;*/
+        return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "secondaryDataSourceOne")
