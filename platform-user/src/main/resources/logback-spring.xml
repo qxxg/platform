@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="d:/logs" />
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度;%msg:日志消息;%n:换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="RABBITMQ"
+              class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+        <layout>
+            <pattern><![CDATA[ %d %p %t [%c] <%m>%n ]]></pattern>
+        </layout>
+        <!--rabbitmq地址 -->
+        <addresses>180.76.240.128:5672</addresses>
+        <username>guest</username>
+        <password>guest</password>
+        <declareExchange>true</declareExchange>
+        <exchangeType>direct</exchangeType>
+        <exchangeName>rabbit.log</exchangeName>
+        <routingKeyPattern>info</routingKeyPattern>
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>true</durable>
+        <deliveryMode>NON_PERSISTENT</deliveryMode>
+        <autoDelete>false</autoDelete>
+    </appender>
+
+    <logger name="com.light.rabbitmq" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="RABBITMQ"/>
+    </logger>
+
+    <!-- 日志输出级别，level 默认值 DEBUG，root 其实是 logger，它是 logger 的根 -->
+    <root level="ERROR">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="RABBITMQ" />
+    </root>
+
+</configuration>

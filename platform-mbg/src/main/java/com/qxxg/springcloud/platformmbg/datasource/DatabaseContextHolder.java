@@ -21,7 +21,7 @@ public class DatabaseContextHolder {
      */
     public static void setRead() {
         local.set(DatabaseType.read.getType());
-        log.info("数据库切换到读库...");
+        log.debug("数据库切换到读库...");
     }
 
     /**
@@ -29,7 +29,7 @@ public class DatabaseContextHolder {
      */
     public static void setWrite() {
         local.set(DatabaseType.write.getType());
-        log.info("数据库切换到写库...");
+        log.debug("数据库切换到写库...");
     }
 
     public static String getReadOrWrite() {

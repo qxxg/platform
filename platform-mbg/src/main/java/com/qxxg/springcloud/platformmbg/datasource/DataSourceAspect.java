@@ -20,7 +20,7 @@ public class DataSourceAspect implements PriorityOrdered {
             "|| execution(* com.qxxg.springcloud.platformmbg.mapper..*.find*(..))")
     public void setReadDataSourceType() {
         DatabaseContextHolder.setRead();
-        log.info("dataSource切换到：Read");
+        log.debug("dataSource切换到：Read");
     }
 
 
@@ -30,7 +30,7 @@ public class DataSourceAspect implements PriorityOrdered {
             "|| execution(* com.qxxg.springcloud.platformmbg.mapper..*.delete*(..))")
     public void setWriteDataSourceType() {
         DatabaseContextHolder.setWrite();
-        log.info("dataSource切换到：write");
+        log.debug("dataSource切换到：write");
     }
 
     @Override

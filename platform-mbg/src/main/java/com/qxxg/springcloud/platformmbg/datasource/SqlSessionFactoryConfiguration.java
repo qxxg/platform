@@ -22,7 +22,7 @@ import java.util.Map;
  * @author:SmallSand
  * @Date:Created in 2019/8/21
  */
-@PropertySource(value = "classpath:application-data.properties")
+//@PropertySource(value = "classpath:application-data.properties")
 @Configuration
 @ConditionalOnClass({EnableTransactionManagement.class})
 @Import({DataSourceConfig.class})
@@ -35,8 +35,8 @@ public class SqlSessionFactoryConfiguration {
     @Resource(name = "readDataSources")
     private List<DataSource> readDataSources;
 
-    @Value("${mysql.datasource.size}")
-    private String dataSourceSize;
+    //@Value("${mysql.datasource.size}")
+    private String dataSourceSize ="2";
 
     @Bean
     @ConditionalOnMissingBean

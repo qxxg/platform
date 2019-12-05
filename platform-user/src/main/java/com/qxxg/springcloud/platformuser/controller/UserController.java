@@ -1,35 +1,50 @@
 package com.qxxg.springcloud.platformuser.controller;
 
-import com.qxxg.springcloud.platformuser.entity.User;
-import com.qxxg.springcloud.platformuser.entity.UserPojo;
-import com.qxxg.springcloud.platformuser.service.UserService;
+import com.qxxg.springcloud.platformmbg.entity.Log;
+import com.qxxg.springcloud.platformmbg.entity.UmsMember;
+import com.qxxg.springcloud.platformuser.service.FeginService;
+import com.qxxg.springcloud.platformuser.service.UmsMemberService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 /**
  * @Author: smallsand
  * @Date: 2019/11/6 14:34
  */
-//@RestController
-//@RequestMapping("/api")
+@Api(value = "会员管理",tags = "UserController")
+@RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    //@Autowired
-    private UserService userServiceImpl;
 
+    @Autowired
+    private UmsMemberService umsMemberServiceImpl;
+
+    @Autowired
+    private FeginService feginServiceImpl;
+
+    @ApiOperation("添加用户")
     @PostMapping("/adduser")
-    public String addUser(User up){
-        up.setPwd(passwordEncoder.encode(up.getPwd()));
-        userServiceImpl.save(up);
+    public String addUser(@RequestBody UmsMember up){
+        up.setPassword(passwordEncoder.encode(up.getPassword()));
+        Log log = new Log();
+        log.setCreateTime(LocalDateTime.now());
+        log.setUserName("测试");
+        String s = feginServiceImpl.info(log);
+        String ss = feginServiceImpl.getinfo("张三");
+        String sss = feginServiceImpl.infoById("1234");
+        System.out.println("s============>:"+s);
+        System.out.println("ss============>:"+ss);
+        System.out.println("sss============>:"+sss);
+        umsMemberServiceImpl.addUmsMember(up);
         return "OK";
     }
 
