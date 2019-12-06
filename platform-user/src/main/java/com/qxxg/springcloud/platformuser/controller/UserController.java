@@ -1,5 +1,6 @@
 package com.qxxg.springcloud.platformuser.controller;
 
+import com.qxxg.springcloud.platformcommon.result.CommonResult;
 import com.qxxg.springcloud.platformmbg.entity.Log;
 import com.qxxg.springcloud.platformmbg.entity.UmsMember;
 import com.qxxg.springcloud.platformuser.service.FeginService;
@@ -28,24 +29,17 @@ public class UserController {
     @Autowired
     private UmsMemberService umsMemberServiceImpl;
 
-    @Autowired
-    private FeginService feginServiceImpl;
-
     @ApiOperation("添加用户")
     @PostMapping("/adduser")
     public String addUser(@RequestBody UmsMember up){
         up.setPassword(passwordEncoder.encode(up.getPassword()));
-        Log log = new Log();
-        log.setCreateTime(LocalDateTime.now());
-        log.setUserName("测试");
-        String s = feginServiceImpl.info(log);
-        String ss = feginServiceImpl.getinfo("张三");
-        String sss = feginServiceImpl.infoById("1234");
-        System.out.println("s============>:"+s);
-        System.out.println("ss============>:"+ss);
-        System.out.println("sss============>:"+sss);
-        umsMemberServiceImpl.addUmsMember(up);
-        return "OK";
+        try {
+            umsMemberServiceImpl.addUmsMember(up);
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "ERROR";
     }
 
     @GetMapping("/user/info")

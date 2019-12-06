@@ -32,14 +32,14 @@
         <autoDelete>false</autoDelete>
     </appender>
 
-    <logger name="com.light.rabbitmq" level="error" additivity="false">
+    <logger name="com.light.rabbitmq" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="RABBITMQ"/>
+       <!-- <appender-ref ref="RABBITMQ"/>-->
     </logger>
     <!-- 日志输出级别，level 默认值 DEBUG，root 其实是 logger，它是 logger 的根 -->
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="RABBITMQ" />
+      <!--  <appender-ref ref="RABBITMQ" />-->
     </root>
 
 </configuration>

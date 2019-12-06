@@ -58,14 +58,3 @@ mysql:
       maxPoolPreparedStatementPerConnectionSize: 50
       removeAbandoned: true
       filters: stat
-
-
-mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.qxxg.springcloud.platformmbg.entity
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-  global-config:
-    db-config:
-      id-type: id_worker

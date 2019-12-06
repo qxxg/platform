@@ -28,4 +28,9 @@ public class FeginServiceImpl implements FeginService {
 
                 return "网络延时，请从新再试！！";
     }
+
+    @Override
+    public CommonResult addRole() {
+        return CommonResult.failed("网络延时，请从新再试！！");
+    }
 }

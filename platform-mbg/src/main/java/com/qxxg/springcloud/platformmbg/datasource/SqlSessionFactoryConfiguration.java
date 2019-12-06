@@ -11,7 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -22,21 +21,21 @@ import java.util.Map;
  * @author:SmallSand
  * @Date:Created in 2019/8/21
  */
-//@PropertySource(value = "classpath:application-data.properties")
+@PropertySource(value = "classpath:config.properties")
 @Configuration
 @ConditionalOnClass({EnableTransactionManagement.class})
 @Import({DataSourceConfig.class})
 public class SqlSessionFactoryConfiguration {
 
     @Resource(name = "primaryDataSource")
-    private DataSource dataSource;
+    private DataSource  dataSource;
 
 
     @Resource(name = "readDataSources")
     private List<DataSource> readDataSources;
 
-    //@Value("${mysql.datasource.size}")
-    private String dataSourceSize ="2";
+    @Value("${mysql.datasource.size}")
+    private String dataSourceSize;
 
     @Bean
     @ConditionalOnMissingBean
@@ -65,6 +64,4 @@ public class SqlSessionFactoryConfiguration {
         proxy.setTargetDataSources(targetDataSources);
         return proxy;
     }
-
-
 }

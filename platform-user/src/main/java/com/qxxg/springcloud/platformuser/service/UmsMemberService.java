@@ -12,6 +12,6 @@ import com.qxxg.springcloud.platformmbg.entity.UmsMember;
  */
 public interface UmsMemberService {
 
-    int addUmsMember(UmsMember um);
+    int addUmsMember(UmsMember um) ;
 
 }

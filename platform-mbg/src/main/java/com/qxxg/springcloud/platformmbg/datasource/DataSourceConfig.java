@@ -2,7 +2,6 @@ package com.qxxg.springcloud.platformmbg.datasource;
 
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.mysql.cj.jdbc.MysqlXADataSource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,26 +19,26 @@ import java.util.List;
  * @author:SmallSand
  * @Date:Created in 2019/8/21
  */
-//@PropertySource(value = "classpath:application-data.properties")
+@PropertySource(value = "classpath:config.properties")
 @Configuration
-@Slf4j
 public class DataSourceConfig {
 
-    /*@Value("${mysql.datasource.write.jdbc-url}")
+    @Value("${mysql.datasource.write.jdbc-url}")
     private String url;
 
     @Value("${mysql.datasource.write.username}")
     private String username;
 
     @Value("${mysql.datasource.write.password}")
-    private String pwd;*/
-    
+    private String pwd;
+
     @Primary
     @Bean(name = "primaryDataSource")
     @Qualifier("primaryDataSource")
     @ConfigurationProperties(prefix = "mysql.datasource.write")
-    public DataSource primaryDataSource() {
-       /* MysqlXADataSource mysqlXADataSource = new MysqlXADataSource();
+    public DataSource  primaryDataSource() {
+        //jta+atomikos分布式事务
+        MysqlXADataSource mysqlXADataSource = new MysqlXADataSource();
         mysqlXADataSource.setUrl(url);
         mysqlXADataSource.setUser(username);
         mysqlXADataSource.setPassword(pwd);
@@ -49,8 +48,10 @@ public class DataSourceConfig {
         atomikosDataSource.setMinPoolSize(20);
         atomikosDataSource.setMaxPoolSize(100);
         atomikosDataSource.setTestQuery("SELECT 1");
-        return atomikosDataSource;*/
-        return DataSourceBuilder.create().build();
+        return atomikosDataSource;
+        //seata分布式事务
+        //return new DataSourceProxy(DataSourceBuilder.create().build());
+        //return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "secondaryDataSourceOne")

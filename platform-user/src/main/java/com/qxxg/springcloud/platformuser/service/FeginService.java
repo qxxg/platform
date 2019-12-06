@@ -1,5 +1,6 @@
 package com.qxxg.springcloud.platformuser.service;
 
+import com.qxxg.springcloud.platformcommon.result.CommonResult;
 import com.qxxg.springcloud.platformmbg.entity.Log;
 import com.qxxg.springcloud.platformuser.service.impl.FeginServiceImpl;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -21,4 +22,7 @@ public interface FeginService {
 
     @RequestMapping(value = "/log/infos",method = RequestMethod.GET)
     public String infoById(@RequestParam("id") String id);
+
+    @RequestMapping(value = "/log/addrole",method = RequestMethod.GET)
+    public CommonResult addRole();
 }
