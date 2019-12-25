@@ -1,7 +1,7 @@
 package com.qxxg.springcloud.platformuser.service.impl;
 
-import com.qxxg.springcloud.platformcommon.result.CommonResult;
 import com.qxxg.springcloud.platformmbg.entity.Log;
+import com.qxxg.springcloud.platformmbg.result.CommonResult;
 import com.qxxg.springcloud.platformuser.service.FeginService;
 import org.springframework.stereotype.Component;
 

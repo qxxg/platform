@@ -1,4 +1,4 @@
-package com.qxxg.springcloud.platformcommon.result;
+package com.qxxg.springcloud.platformmbg.result;
 
 
 public class CommonResult<T> {

@@ -1,17 +1,19 @@
-package com.qxxg.springcloud.platformcommon.aspect;
+package com.qxxg.springcloud.platformmbg.aspect;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
+import com.qxxg.springcloud.platformmbg.entity.WebLogAop;
+import com.qxxg.springcloud.platformmbg.service.WebLogAopService;
+import com.qxxg.springcloud.platformmbg.util.IpUtil;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.marker.Markers;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +36,16 @@ import java.util.Map;
  * 统一日志处理切面
  * Created by macro on 2018/4/26.
  */
+@Slf4j
 @Aspect
 @Component
 @Order(1)
 public class WebLogAspect {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
+    //private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
     private ThreadLocal<Long> startTime = new ThreadLocal<>();
+
+    @Resource
+    private WebLogAopService webLogAopServiceImpl;
 
     @Pointcut("execution(public * com.qxxg.springcloud.*.controller.*.*(..))")
     public void webLog() {
@@ -57,37 +65,31 @@ public class WebLogAspect {
         //获取当前请求对象
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        //记录请求信息(通过logstash传入elasticsearch)
-        WebLog webLog = new WebLog();
+        Principal userPrincipal = request.getUserPrincipal();
+        WebLogAop wla = new WebLogAop();
+        wla.setUsername(userPrincipal.getName());
         Object result = joinPoint.proceed();
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
         if (method.isAnnotationPresent(ApiOperation.class)) {
             ApiOperation log = method.getAnnotation(ApiOperation.class);
-            webLog.setDescription(log.value());
+            wla.setDescription(log.value());
         }
         long endTime = System.currentTimeMillis();
         String urlStr = request.getRequestURL().toString();
-        webLog.setBasePath(StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath()));
-        webLog.setIp(request.getRemoteUser());
-        webLog.setMethod(request.getMethod());
-        webLog.setParameter(getParameter(method, joinPoint.getArgs()));
-        webLog.setResult(result);
-        webLog.setSpendTime((int) (endTime - startTime.get()));
-        webLog.setStartTime(startTime.get());
-        webLog.setUri(request.getRequestURI());
-        webLog.setUrl(request.getRequestURL().toString());
-        Map<String,Object> logMap = new HashMap<>();
-        logMap.put("url",webLog.getUrl());
-        logMap.put("method",webLog.getMethod());
-        logMap.put("parameter",webLog.getParameter());
-        logMap.put("spendTime",webLog.getSpendTime());
-        logMap.put("description",webLog.getDescription());
-//        LOGGER.info("{}", JSONUtil.parse(webLog));
+        wla.setBasePath(StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath()));
+        wla.setIp(IpUtil.getIpAddr(request));
+        wla.setMethod(request.getMethod());
+        wla.setParameter( JSONUtil.toJsonStr(getParameter(method, joinPoint.getArgs())));
+        wla.setResult( JSONUtil.toJsonStr(result));
+        wla.setSpendTime((int) (endTime - startTime.get()));
+        wla.setStartTime(startTime.get());
+        wla.setUri(request.getRequestURI());
+        wla.setUrl(request.getRequestURL().toString());
         System.out.println("记录数据开始》》》》》》》》》》》");
-        //LOGGER.info(Markers.appendEntries(logMap), JSONUtil.parse(webLog).toString());
-        LOGGER.error(JSONUtil.parse(webLog).toString());
+        //ThreadPoolUtil.getPool().execute(new SaveWebLogAop(webLogAopServiceImpl,wla));
+        log.info(JSONUtil.parse(wla).toString());
         return result;
     }
 
@@ -121,4 +123,27 @@ public class WebLogAspect {
             return argList;
         }
     }
+
+
+    /**
+     * 日志保存
+     */
+    private static class SaveWebLogAop implements Runnable{
+
+        private WebLogAopService webLogAopServiceImpl;
+
+        private WebLogAop wla;
+
+        public SaveWebLogAop(WebLogAopService webLogAopServiceImpl,WebLogAop wla){
+            this.webLogAopServiceImpl=webLogAopServiceImpl;
+            this.wla = wla;
+        }
+
+        @Override
+        public void run() {
+            webLogAopServiceImpl.saveWebLogAop(wla);
+        }
+    }
+
 }
+

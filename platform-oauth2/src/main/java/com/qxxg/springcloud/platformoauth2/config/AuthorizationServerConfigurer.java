@@ -73,7 +73,6 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         return jwtAccessTokenConverter;
     }
 
-
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.allowFormAuthenticationForClients()
@@ -86,10 +85,12 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         clients.inMemory()
                 .withClient("web")
                 .secret("web-secret")
+                .accessTokenValiditySeconds(-1)
                 .authorizedGrantTypes("password").scopes("web")
                 .and()
                 .withClient("andorid")
                 .secret("andorid-secret")
+                .accessTokenValiditySeconds(-1)
                 .authorizedGrantTypes("password").scopes("adnorid");
         super.configure(clients);
     }

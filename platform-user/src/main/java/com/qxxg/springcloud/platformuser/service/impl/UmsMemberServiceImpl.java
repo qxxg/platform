@@ -1,9 +1,9 @@
 package com.qxxg.springcloud.platformuser.service.impl;
 
-import com.qxxg.springcloud.platformcommon.result.CommonResult;
 import com.qxxg.springcloud.platformmbg.entity.Log;
 import com.qxxg.springcloud.platformmbg.entity.UmsMember;
 import com.qxxg.springcloud.platformmbg.mapper.UmsMemberMapper;
+import com.qxxg.springcloud.platformmbg.result.CommonResult;
 import com.qxxg.springcloud.platformuser.service.FeginService;
 import com.qxxg.springcloud.platformuser.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -32,7 +33,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     @Transactional(value = "financeCore")
     public int addUmsMember(UmsMember um){
         Log log = new Log();
-        log.setCreateTime(LocalDateTime.now());
+        log.setCreateTime(new Date());
         log.setUserName("测试");
         String s = feginServiceImpl.info(log);
         String ss = feginServiceImpl.getinfo("张三");

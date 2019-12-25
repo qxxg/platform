@@ -9,13 +9,13 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="true">
 
     <!-- logback项目名称 -->
-    <property name="appName" value="platform-user"></property>
+    <property name="appName" value="platform-gateway"></property>
 
     <!-- 日志级别 DEBUGER INFO WARN ERROR -->
     <property name="logLevel" value="INFO"></property>
 
     <!-- 日志路径-->
-    <property name="logPath" value="./platform-user/logs"></property>
+    <property name="logPath" value="./platform-gateway/logs"></property>
 
     <!-- 最大保存时间 30天-->
     <property name="maxHistory" value="3"/>
@@ -37,7 +37,7 @@
                     converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
     <conversionRule conversionWord="wEx"
                     converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
-    <conversionRule conversionWord="mx" converterClass="com.qxxg.springcloud.platformuser.config.CustomMessageConverter" />
+    <conversionRule conversionWord="mx" converterClass="com.qxxg.springcloud.platformoauth2.config.CustomMessageConverter" />
     <!-- 彩色日志格式 -->
     <property name="CONSOLE_LOG_PATTERN"
               value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
@@ -147,20 +147,23 @@
 
     <appender name="AMQP" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
         <layout>
-            <pattern>{"APP":"USER","time": "%date{ISO8601}","thread": "%thread","level": "%level","class": "%logger{60}","detail": "%mx"}%n</pattern>
+            <pattern>
+                {"time": "%date{ISO8601}","thread": "%thread","level": "%level","class": "%logger{60}","detail": "%mx"}%n
+            </pattern>
         </layout>
-        <addresses>180.76.240.128:5672</addresses>
+        <host>180.76.240.128</host>
+        <port>5672</port>
         <username>guest</username>
         <password>guest</password>
+        <applicationId>ms</applicationId>
+        <routingKeyPattern>lgstash</routingKeyPattern>
         <declareExchange>true</declareExchange>
         <exchangeType>direct</exchangeType>
         <exchangeName>ex_logstash</exchangeName>
-        <routingKeyPattern>lgstash</routingKeyPattern>
         <generateId>true</generateId>
         <charset>UTF-8</charset>
         <durable>true</durable>
-        <deliveryMode>NON_PERSISTENT</deliveryMode>
-        <autoDelete>false</autoDelete>
+        <deliveryMode>PERSISTENT</deliveryMode>
     </appender>
 
 

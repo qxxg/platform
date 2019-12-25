@@ -1,9 +1,6 @@
 package com.qxxg.springcloud.platformuser.controller;
 
-import com.qxxg.springcloud.platformcommon.result.CommonResult;
-import com.qxxg.springcloud.platformmbg.entity.Log;
 import com.qxxg.springcloud.platformmbg.entity.UmsMember;
-import com.qxxg.springcloud.platformuser.service.FeginService;
 import com.qxxg.springcloud.platformuser.service.UmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 
 /**
  * @Author: smallsand

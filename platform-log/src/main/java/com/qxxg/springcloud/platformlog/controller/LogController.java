@@ -1,10 +1,10 @@
 package com.qxxg.springcloud.platformlog.controller;
 
 
-import com.qxxg.springcloud.platformcommon.result.CommonResult;
 import com.qxxg.springcloud.platformlog.service.RoleService;
 import com.qxxg.springcloud.platformmbg.entity.Log;
 import com.qxxg.springcloud.platformmbg.entity.UmsRole;
+import com.qxxg.springcloud.platformmbg.result.CommonResult;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

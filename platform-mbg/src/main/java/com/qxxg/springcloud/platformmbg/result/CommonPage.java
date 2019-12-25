@@ -1,4 +1,4 @@
-package com.qxxg.springcloud.platformcommon.result;
+package com.qxxg.springcloud.platformmbg.result;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.data.domain.Page;

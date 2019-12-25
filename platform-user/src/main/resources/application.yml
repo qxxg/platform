@@ -34,11 +34,11 @@ eureka:
 #    resource:
 #      user-info-uri: http://localhost:6666//user/info
 
-logging:
-  level:
-    com:
-      qxxg:
-        springcloud: debug
+#logging:
+#  level:
+#    com:
+#      qxxg:
+#        springcloud: debug
 feign:
   hystrix:
     enabled: true

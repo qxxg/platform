@@ -1,4 +1,4 @@
-package com.qxxg.springcloud.platformcommon.util;
+package com.qxxg.springcloud.platformmbg.util;
 
 import org.springframework.util.DigestUtils;
 

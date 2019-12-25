@@ -1,10 +1,9 @@
 package com.qxxg.springcloud.platformuser.service;
 
-import com.qxxg.springcloud.platformcommon.result.CommonResult;
 import com.qxxg.springcloud.platformmbg.entity.Log;
+import com.qxxg.springcloud.platformmbg.result.CommonResult;
 import com.qxxg.springcloud.platformuser.service.impl.FeginServiceImpl;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**

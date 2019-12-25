@@ -9,15 +9,15 @@ spring:
     driver-class-name:  com.mysql.cj.jdbc.Driver
     password: root
 
-  zipkin:
-    base-url: http://180.76.240.128:9411    # 指定了 zipkin 服务器的地址
-    sender:
-      type: rabbit
-  sleuth:
-    sampler:
-      probability: 1.0    # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
-  rabbitmq:
-    addresses: 180.76.240.128
+#  zipkin:
+#    base-url: http://180.76.240.128:9411    # 指定了 zipkin 服务器的地址
+#    sender:
+#      type: rabbit
+#  sleuth:
+#    sampler:
+#      probability: 1.0    # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+#  rabbitmq:
+#    addresses: 180.76.240.128
 
 
 #  redis:

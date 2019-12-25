@@ -84,9 +84,11 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange.mutate().response(decoratedResponse).build());
         }
 
-        //如果请求的header中没有携带Authorization，或者redis中没有这条Authorization的信息返回登录失败
-        if (CollectionUtils.isEmpty(authorization) ||
-                StringUtils.isEmpty(redisTemplate.opsForValue().get(MD5Util.getMD5(authorization.get(0))))) {
+        //如果携带的Authorization为空，直接放行
+        if(CollectionUtils.isEmpty(authorization))
+            return chain.filter(exchange);
+        //如果redis中没有这条Authorization的信息返回登录失败
+        if (StringUtils.isEmpty(redisTemplate.opsForValue().get(MD5Util.getMD5(authorization.get(0))))) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             byte[] bytes = "{\"status\":\"401\",\"msg\":\"没有登录、或登录已失效。请从新登录\"}".getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);

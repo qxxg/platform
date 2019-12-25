@@ -1,6 +1,9 @@
 server:
   port: 4444
 spring:
+  output:
+    ansi:
+      enabled: always
   application:
     name: platform-gateway
   cloud:
