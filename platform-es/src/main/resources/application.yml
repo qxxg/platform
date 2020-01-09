@@ -1,0 +1,17 @@
+server:
+  port: 5554
+spring:
+  application:
+    name: platform-es
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-nodes: 180.76.240.128:9200
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+  client:
+    service-url:
+      defaultZone:  http://smallsand:smallsand@service1:7777/eureka/

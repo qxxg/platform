@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxxg.springcloud.platformmbg.mapper.UndoLogMapper">
+  <resultMap id="BaseResultMap" type="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="branch_id" jdbcType="BIGINT" property="branchId" />
+    <result column="xid" jdbcType="VARCHAR" property="xid" />
+    <result column="context" jdbcType="VARCHAR" property="context" />
+    <result column="log_status" jdbcType="INTEGER" property="logStatus" />
+    <result column="log_created" jdbcType="TIMESTAMP" property="logCreated" />
+    <result column="log_modified" jdbcType="TIMESTAMP" property="logModified" />
+    <result column="ext" jdbcType="VARCHAR" property="ext" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    <result column="rollback_info" jdbcType="LONGVARBINARY" property="rollbackInfo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, branch_id, xid, context, log_status, log_created, log_modified, ext
+  </sql>
+  <sql id="Blob_Column_List">
+    rollback_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLogExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from undo_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from undo_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from undo_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from undo_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLogExample">
+    delete from undo_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into undo_log (branch_id, xid, context, 
+      log_status, log_created, log_modified, 
+      ext, rollback_info)
+    values (#{branchId,jdbcType=BIGINT}, #{xid,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, 
+      #{logStatus,jdbcType=INTEGER}, #{logCreated,jdbcType=TIMESTAMP}, #{logModified,jdbcType=TIMESTAMP}, 
+      #{ext,jdbcType=VARCHAR}, #{rollbackInfo,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into undo_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="xid != null">
+        xid,
+      </if>
+      <if test="context != null">
+        context,
+      </if>
+      <if test="logStatus != null">
+        log_status,
+      </if>
+      <if test="logCreated != null">
+        log_created,
+      </if>
+      <if test="logModified != null">
+        log_modified,
+      </if>
+      <if test="ext != null">
+        ext,
+      </if>
+      <if test="rollbackInfo != null">
+        rollback_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="branchId != null">
+        #{branchId,jdbcType=BIGINT},
+      </if>
+      <if test="xid != null">
+        #{xid,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null">
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="logStatus != null">
+        #{logStatus,jdbcType=INTEGER},
+      </if>
+      <if test="logCreated != null">
+        #{logCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logModified != null">
+        #{logModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="rollbackInfo != null">
+        #{rollbackInfo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLogExample" resultType="java.lang.Integer">
+    select count(*) from undo_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update undo_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.branchId != null">
+        branch_id = #{record.branchId,jdbcType=BIGINT},
+      </if>
+      <if test="record.xid != null">
+        xid = #{record.xid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.context != null">
+        context = #{record.context,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logStatus != null">
+        log_status = #{record.logStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.logCreated != null">
+        log_created = #{record.logCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logModified != null">
+        log_modified = #{record.logModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext != null">
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rollbackInfo != null">
+        rollback_info = #{record.rollbackInfo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update undo_log
+    set id = #{record.id,jdbcType=BIGINT},
+      branch_id = #{record.branchId,jdbcType=BIGINT},
+      xid = #{record.xid,jdbcType=VARCHAR},
+      context = #{record.context,jdbcType=VARCHAR},
+      log_status = #{record.logStatus,jdbcType=INTEGER},
+      log_created = #{record.logCreated,jdbcType=TIMESTAMP},
+      log_modified = #{record.logModified,jdbcType=TIMESTAMP},
+      ext = #{record.ext,jdbcType=VARCHAR},
+      rollback_info = #{record.rollbackInfo,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update undo_log
+    set id = #{record.id,jdbcType=BIGINT},
+      branch_id = #{record.branchId,jdbcType=BIGINT},
+      xid = #{record.xid,jdbcType=VARCHAR},
+      context = #{record.context,jdbcType=VARCHAR},
+      log_status = #{record.logStatus,jdbcType=INTEGER},
+      log_created = #{record.logCreated,jdbcType=TIMESTAMP},
+      log_modified = #{record.logModified,jdbcType=TIMESTAMP},
+      ext = #{record.ext,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    update undo_log
+    <set>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=BIGINT},
+      </if>
+      <if test="xid != null">
+        xid = #{xid,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null">
+        context = #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="logStatus != null">
+        log_status = #{logStatus,jdbcType=INTEGER},
+      </if>
+      <if test="logCreated != null">
+        log_created = #{logCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logModified != null">
+        log_modified = #{logModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext != null">
+        ext = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="rollbackInfo != null">
+        rollback_info = #{rollbackInfo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    update undo_log
+    set branch_id = #{branchId,jdbcType=BIGINT},
+      xid = #{xid,jdbcType=VARCHAR},
+      context = #{context,jdbcType=VARCHAR},
+      log_status = #{logStatus,jdbcType=INTEGER},
+      log_created = #{logCreated,jdbcType=TIMESTAMP},
+      log_modified = #{logModified,jdbcType=TIMESTAMP},
+      ext = #{ext,jdbcType=VARCHAR},
+      rollback_info = #{rollbackInfo,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qxxg.springcloud.platformmbg.entity.UndoLog">
+    update undo_log
+    set branch_id = #{branchId,jdbcType=BIGINT},
+      xid = #{xid,jdbcType=VARCHAR},
+      context = #{context,jdbcType=VARCHAR},
+      log_status = #{logStatus,jdbcType=INTEGER},
+      log_created = #{logCreated,jdbcType=TIMESTAMP},
+      log_modified = #{logModified,jdbcType=TIMESTAMP},
+      ext = #{ext,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
