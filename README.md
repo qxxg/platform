@@ -11,7 +11,7 @@
 ``` lua
 platform
 ├── platform-common -- 工具类及通用代码模块
-├── platform-mbg -- MyBatisGenerator生成的数据库操作代码模块
+├── platform-mbg -- MyBatisGenerator生成的数据库操作代码模块、jta-atomikos分布式事务
 ├── platform-eureka -- 注册中心
 ├── platform-admin-- springboot监控
 ├── platform-gateway-- spring网关
