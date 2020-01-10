@@ -16,5 +16,7 @@ platform
 ├── platform-admin-- springboot监控
 ├── platform-gateway-- spring网关
 ├── platform-user（log） -- 测试feign、分布式事务模块
+├── platform-seata-a  -- seata分布式服务
+├── platform-seata-b -- seata分布式服务
 └── platform-oauth2-- oauth验证服务
 ```
