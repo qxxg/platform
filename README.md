@@ -3,6 +3,7 @@
         Post请求：localhost:12315/oauth/token?grant_type=password&username=macro&password=macro123&client_id=web&client_secret=web-secret&scope=web
 ![img.png](img.png)<br/>
     platform-admin: 后台管理服务<br/>
-![img_1.png](img_1.png)
+![img_1.png](img_1.png)<br/>
+SQL文件：doc/platform.sql<br/>
     platform-common: 公共服务封装
     platform-mbg: mybatis逆向工程
