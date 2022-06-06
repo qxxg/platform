@@ -1,4 +1,5 @@
-微服务Oauth2.0授权中心整合案例、分布式事务整合案例</br>
+微服务Oauth2.0授权中心整合案例、分布式事务整合案例、后台动态根据分配权限自动控制接口访问权限具体参考IntegrationUserDetailsService.loadUserByUsername
+以及platfrom-admin中DynamicSecurityMetadataSource、DynamicAccessDecisionManager</br>
     platform-sso: Oauth2.0授权中心<br/>
         Post请求：localhost:12315/oauth/token?grant_type=password&username=macro&password=macro123&client_id=web&client_secret=web-secret&scope=web
 ![img.png](img.png)<br/>
