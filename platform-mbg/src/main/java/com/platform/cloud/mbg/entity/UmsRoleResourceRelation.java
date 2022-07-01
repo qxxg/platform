@@ -1,16 +1,19 @@
 package com.platform.cloud.mbg.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class UmsRoleResourceRelation implements Serializable {
     private Long id;
 
-    /** 角色ID **/
+    @ApiModelProperty(value = "角色ID")
     private Long roleId;
 
-    /** 资源ID **/
+    @ApiModelProperty(value = "资源ID")
     private Long resourceId;
 
     private static final long serialVersionUID = 1L;

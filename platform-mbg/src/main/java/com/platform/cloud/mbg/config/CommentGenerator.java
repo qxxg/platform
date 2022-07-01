@@ -4,9 +4,11 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.Field;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -18,6 +20,10 @@ public class CommentGenerator extends DefaultCommentGenerator {
     private boolean addRemarkComments = false;
     private static final String EXAMPLE_SUFFIX = "Example";
     private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME = "io.swagger.annotations.ApiModelProperty";
+
+    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME_JSONFORMAT= "com.fasterxml.jackson.annotation.JsonFormat";
+
+    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME_DATETIMEFORMAT= "org.springframework.format.annotation.DateTimeFormat";
 
     /**
      * 设置用户配置的参数
@@ -35,6 +41,10 @@ public class CommentGenerator extends DefaultCommentGenerator {
     public void addFieldComment(Field field, IntrospectedTable introspectedTable,
                                 IntrospectedColumn introspectedColumn) {
         String remarks = introspectedColumn.getRemarks();
+        if(introspectedColumn.getJdbcTypeName().equals("TIMESTAMP")){
+            field.addJavaDocLine("@DateTimeFormat(pattern = \"yyyy-MM-dd\")");
+            field.addJavaDocLine("@JsonFormat(pattern =\"yyyy-MM-dd\")");
+        }
         //根据参数和备注信息判断是否添加备注信息
         if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
 //            addFieldJavaDoc(field, remarks);
@@ -43,8 +53,8 @@ public class CommentGenerator extends DefaultCommentGenerator {
                 remarks = remarks.replace("\"", "'");
             }
             //给model的字段添加swagger注解
-            //field.addJavaDocLine("@ApiModelProperty(value = \"" + remarks + "\")");
-            field.addJavaDocLine("/** " + remarks + " **/");
+            field.addJavaDocLine("@ApiModelProperty(value = \"" + remarks + "\")");
+            //field.addJavaDocLine("/** " + remarks + " **/");
         }
     }
 
@@ -68,7 +78,9 @@ public class CommentGenerator extends DefaultCommentGenerator {
         super.addJavaFileComment(compilationUnit);
         //只在model中添加swagger注解类的导入
         if (!compilationUnit.isJavaInterface() && !compilationUnit.getType().getFullyQualifiedName().contains(EXAMPLE_SUFFIX)) {
-            //compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
+            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
+            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME_JSONFORMAT));
+            compilationUnit.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME_DATETIMEFORMAT));
         }
     }
 }

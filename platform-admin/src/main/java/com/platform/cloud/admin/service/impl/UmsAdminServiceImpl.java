@@ -45,7 +45,7 @@ public class UmsAdminServiceImpl implements UmsAdminService {
 
     @Override
     @Transactional(value = "financeCore")
-    public int insertSelective(UmsAdmin record) {
+    public int insertSelective(UmsAdmin record)throws Exception {
         umsAdminMapper.deleteByPrimaryKey(9L);
         umsAdminMapper.insertSelective(record);
         return 0;

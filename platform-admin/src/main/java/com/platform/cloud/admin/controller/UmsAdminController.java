@@ -41,7 +41,13 @@ public class UmsAdminController {
     @PostMapping("/insert")
     @ResponseBody
     public CommonResult insert(@RequestBody UmsAdmin admin){
-        return CommonResult.success(umsAdminServiceImpl.insertSelective(admin));
+        try {
+            umsAdminServiceImpl.insertSelective(admin);
+            return CommonResult.success("ssss");
+        } catch (Exception e) {
+            return CommonResult.failed("ssss");
+        }
+
     }
 
 }

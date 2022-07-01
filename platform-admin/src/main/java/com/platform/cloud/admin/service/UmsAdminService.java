@@ -22,7 +22,7 @@ public interface UmsAdminService {
 
     int insert(UmsAdmin record);
 
-    int insertSelective(UmsAdmin record);
+    int insertSelective(UmsAdmin record) throws Exception;
 
     List<UmsAdmin> selectByExample(Integer pageSize,Integer page, Principal principal);
 

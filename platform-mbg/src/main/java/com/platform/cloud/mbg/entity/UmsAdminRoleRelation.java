@@ -1,7 +1,10 @@
 package com.platform.cloud.mbg.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class UmsAdminRoleRelation implements Serializable {

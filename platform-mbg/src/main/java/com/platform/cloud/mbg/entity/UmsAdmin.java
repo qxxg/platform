@@ -1,8 +1,11 @@
 package com.platform.cloud.mbg.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class UmsAdmin implements Serializable {
@@ -12,25 +15,29 @@ public class UmsAdmin implements Serializable {
 
     private String password;
 
-    /** 头像 **/
+    @ApiModelProperty(value = "头像")
     private String icon;
 
-    /** 邮箱 **/
+    @ApiModelProperty(value = "邮箱")
     private String email;
 
-    /** 昵称 **/
+    @ApiModelProperty(value = "昵称")
     private String nickName;
 
-    /** 备注信息 **/
+    @ApiModelProperty(value = "备注信息")
     private String note;
 
-    /** 创建时间 **/
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern ="yyyy-MM-dd")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    /** 最后登录时间 **/
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern ="yyyy-MM-dd")
+    @ApiModelProperty(value = "最后登录时间")
     private Date loginTime;
 
-    /** 帐号启用状态：0->禁用；1->启用 **/
+    @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
 
     private static final long serialVersionUID = 1L;

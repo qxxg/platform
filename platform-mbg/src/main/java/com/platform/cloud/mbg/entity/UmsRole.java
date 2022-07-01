@@ -1,26 +1,31 @@
 package com.platform.cloud.mbg.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class UmsRole implements Serializable {
     private Long id;
 
-    /** 名称 **/
+    @ApiModelProperty(value = "名称")
     private String name;
 
-    /** 描述 **/
+    @ApiModelProperty(value = "描述")
     private String description;
 
-    /** 后台用户数量 **/
+    @ApiModelProperty(value = "后台用户数量")
     private Integer adminCount;
 
-    /** 创建时间 **/
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern ="yyyy-MM-dd")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    /** 启用状态：0->禁用；1->启用 **/
+    @ApiModelProperty(value = "启用状态：0->禁用；1->启用")
     private Integer status;
 
     private Integer sort;
